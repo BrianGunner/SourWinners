@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="ngrok-skip-browser-warning" content="true">
+    <title>SourWinners - Win More Often!</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background with animated particles -->
+    <div class="particles-bg">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🎰 SourWinners</h1>
+                <p class="tagline">Win 4x More Often!</p>
+            </div>
+            <div class="wallet-info">
+                <div class="balance">
+                    <span class="balance-label">💰 Balance</span>
+                    <span class="balance-amount" id="balance">0.0000 SOL</span>
+                </div>
+                <button class="topup-btn" id="topupBtn">+ Add SOL</button>
+            </div>
+        </header>
+
+        <!-- Contest Status Card -->
+        <div class="contest-card">
+            <div class="contest-header">
+                <h2 id="contestTitle">🔴 Contest #1</h2>
+                <div class="contest-phase" id="contestPhase">⏳ Waiting for players</div>
+            </div>
+
+            <!-- Live Timer -->
+            <div class="timer-section">
+                <div class="timer-circle" id="timerCircle">
+                    <div class="timer-text" id="timerText">30</div>
+                    <div class="timer-label">seconds</div>
+                </div>
+            </div>
+
+            <!-- Participants -->
+            <div class="participants-section">
+                <div class="participants-header">
+                    <span>👥 Players</span>
+                    <span class="participants-count" id="participantsCount">0/30</span>
+                </div>
+                <div class="participants-grid" id="participantsGrid">
+                    <!-- Participant avatars will be added here -->
+                </div>
+            </div>
+
+            <!-- Prize Info -->
+            <div class="prize-section">
+                <div class="prize-card">
+                    <div class="prize-label">🏆 Winners</div>
+                    <div class="prize-value" id="winnerCount">0 (80%)</div>
+                </div>
+                <div class="prize-card">
+                    <div class="prize-label">💰 Prize Pool</div>
+                    <div class="prize-value" id="prizePool">0.0000 SOL</div>
+                </div>
+                <div class="prize-card">
+                    <div class="prize-label">🎯 Your Odds</div>
+                    <div class="prize-value win-odds">80%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contest Tier Selection -->
+        <div class="tier-selection">
+            <h3>Select Contest Level</h3>
+            <div class="tier-buttons">
+                <button class="tier-btn active" data-tier="rookie" data-amount="0.01">
+                    <span class="tier-name">ROOKIE</span>
+                    <span class="tier-amount">0.01 SOL</span>
+                    <span class="tier-label">Start Here</span>
+                </button>
+                <button class="tier-btn" data-tier="pro" data-amount="0.05">
+                    <span class="tier-name">PRO</span>
+                    <span class="tier-amount">0.05 SOL</span>
+                    <span class="tier-label">5x Rewards</span>
+                </button>
+                <button class="tier-btn" data-tier="elite" data-amount="0.1">
+                    <span class="tier-name">ELITE</span>
+                    <span class="tier-amount">0.1 SOL</span>
+                    <span class="tier-label">10x Rewards</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-section">
+            <button class="join-btn" id="joinBtn" disabled>
+                <span class="btn-icon">🎰</span>
+                <span class="btn-text">Join Contest</span>
+                <span class="btn-amount" id="joinAmount">0.01 SOL</span>
+            </button>
+
+            <div class="quick-actions">
+                <button class="action-btn" id="statusBtn">
+                    <span>📊</span>
+                    <span>Status</span>
+                </button>
+                <button class="action-btn" id="historyBtn">
+                    <span>📈</span>
+                    <span>History</span>
+                </button>
+                <button class="action-btn" id="shareBtn">
+                    <span>📢</span>
+                    <span>Share</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="winners-section">
+            <h3>🏆 Leaderboard</h3>
+            <div class="winners-list" id="winnersList">
+                <!-- Top 5 winners will be added here -->
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalWins">0</div>
+                <div class="stat-label">Your Wins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalEarnings">0.000</div>
+                <div class="stat-label">Total Earned</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="winRate">0%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="profitPercentage">+0%</div>
+                <div class="stat-label">Profit</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✅</span>
+        <span class="toast-message" id="toastMessage">Welcome to SourWinners!</span>
+    </div>
+
+    <!-- Winner Celebration Modal -->
+    <div class="celebration-modal" id="celebrationModal">
+        <div class="celebration-content">
+            <button class="celebration-close" id="celebrationCloseX">×</button>
+            <div class="celebration-icon">🎉</div>
+            <h2>CONGRATULATIONS!</h2>
+            <p class="celebration-message">You won <span id="celebrationAmount">0.0147 SOL</span>!</p>
+            <div class="celebration-profit">
+                <span class="profit-label">Profit:</span>
+                <span class="profit-percentage" id="celebrationProfit">+147%</span>
+            </div>
+            <div class="celebration-confetti">
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+            </div>
+            <button class="celebration-btn" id="celebrationClose">Play Again! 🎰</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p>Connecting to SourWinners...</p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
