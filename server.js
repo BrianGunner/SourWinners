@@ -8,8 +8,9 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, ngrok-skip-browser-warning');
-    res.header('X-Frame-Options', 'ALLOWALL');
-    res.header('Content-Security-Policy', "frame-ancestors 'self' https://web.telegram.org https://telegram.org");
+    // Allow framing from Telegram domains
+    res.header('X-Frame-Options', 'SAMEORIGIN');
+    res.header('Content-Security-Policy', "frame-ancestors 'self' https://web.telegram.org https://telegram.org https://*.telegram.org");
     res.header('ngrok-skip-browser-warning', 'true');
     next();
 });
